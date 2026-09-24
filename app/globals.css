@@ -1,0 +1,380 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lato:wght@300;400;700&display=swap');
+
+:root {
+  /* Forest & Wood */
+  --forest-50: #f0f7f0;
+  --forest-100: #dceedc;
+  --forest-200: #bbdebb;
+  --forest-300: #8ec78e;
+  --forest-400: #5daa5d;
+  --forest-500: #3d8c3d;
+  --forest-600: #2d6e2d;
+  --forest-700: #245724;
+  --forest-800: #1e451e;
+  --forest-900: #1a3a1a;
+  --forest-950: #0d1f0d;
+
+  /* Gold */
+  --gold-50: #fffbeb;
+  --gold-100: #fef3c7;
+  --gold-200: #fde68a;
+  --gold-300: #fcd34d;
+  --gold-400: #fbbf24;
+  --gold-500: #f59e0b;
+  --gold-600: #d97706;
+  --gold-700: #b45309;
+  --gold-800: #92400e;
+  --gold-900: #78350f;
+
+  /* Cream */
+  --cream-50: #fdfdf8;
+  --cream-100: #faf8ef;
+  --cream-200: #f5f0db;
+  --cream-300: #ede5be;
+  --cream-400: #e2d499;
+
+  /* Wood Brown */
+  --wood-100: #f5e6d3;
+  --wood-200: #e8c99a;
+  --wood-300: #d4a96a;
+  --wood-400: #b8864a;
+  --wood-500: #9a6a32;
+  --wood-600: #7d5227;
+  --wood-700: #5e3d1e;
+  --wood-800: #3d2810;
+  --wood-900: #1e1408;
+
+  /* Navy */
+  --navy-50: #eff6ff;
+  --navy-100: #dbeafe;
+  --navy-400: #60a5fa;
+  --navy-500: #3b82f6;
+  --navy-600: #2563eb;
+  --navy-700: #1d4ed8;
+  --navy-800: #1e3a5f;
+  --navy-900: #1e2d4a;
+  --navy-950: #0f172a;
+}
+
+@layer base {
+  :root {
+    --background: 25 25% 8%;
+    --foreground: 45 30% 93%;
+    --card: 25 20% 12%;
+    --card-foreground: 45 30% 93%;
+    --popover: 25 20% 10%;
+    --popover-foreground: 45 30% 93%;
+    --primary: 38 85% 55%;
+    --primary-foreground: 25 40% 8%;
+    --secondary: 120 30% 18%;
+    --secondary-foreground: 45 30% 93%;
+    --muted: 25 15% 18%;
+    --muted-foreground: 45 20% 60%;
+    --accent: 38 70% 45%;
+    --accent-foreground: 45 30% 93%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 25 20% 22%;
+    --input: 25 20% 22%;
+    --ring: 38 85% 55%;
+    --radius: 0.75rem;
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+    --error: 0 84% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Lato', sans-serif;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Cinzel', serif;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(180, 120, 60, 0.4);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(180, 120, 60, 0.7);
+}
+
+/* Gold gradient text */
+.gold-text {
+  background: linear-gradient(135deg, #b8860b 0%, #daa520 20%, #ffd700 40%, #fffacd 55%, #ffd700 70%, #daa520 85%, #b8860b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Foliora logo ornate styling */
+.foliora-logo-text {
+  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-weight: 700;
+  background: linear-gradient(180deg,
+    #ffe87c 0%,
+    #ffd700 15%,
+    #daa520 30%,
+    #b8860b 45%,
+    #daa520 55%,
+    #ffd700 70%,
+    #ffe87c 85%,
+    #ffd700 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 40px rgba(218, 165, 32, 0.4));
+  letter-spacing: 0.15em;
+}
+
+.foliora-emblem {
+  background: radial-gradient(ellipse at center, rgba(90, 55, 15, 0.95) 0%, rgba(60, 35, 8, 0.98) 60%, rgba(30, 15, 2, 1) 100%);
+  border: 3px solid;
+  border-image: linear-gradient(135deg, #b8860b, #ffd700, #daa520, #ffd700, #b8860b) 1;
+  box-shadow:
+    0 0 30px rgba(255, 215, 0, 0.3),
+    0 0 60px rgba(218, 165, 32, 0.2),
+    inset 0 0 30px rgba(255, 215, 0, 0.05);
+}
+
+/* Particle animation */
+@keyframes float-particle {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(-120vh) translateX(var(--drift)) rotate(720deg); opacity: 0; }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg) translateX(0); }
+  50% { transform: rotate(3deg) translateX(4px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6), 0 0 80px rgba(255, 215, 0, 0.2); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes leaf-fall {
+  0% { transform: translateY(-10px) rotate(0deg) translateX(0); opacity: 1; }
+  50% { transform: translateY(50vh) rotate(180deg) translateX(30px); opacity: 0.8; }
+  100% { transform: translateY(100vh) rotate(360deg) translateX(-20px); opacity: 0; }
+}
+
+@keyframes butterfly-fly {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); }
+  25% { transform: translateX(30px) translateY(-20px) rotate(15deg); }
+  50% { transform: translateX(60px) translateY(0px) rotate(0deg); }
+  75% { transform: translateX(30px) translateY(20px) rotate(-15deg); }
+  100% { transform: translateX(0) translateY(0) rotate(0deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.3; filter: blur(40px); }
+  50% { opacity: 0.7; filter: blur(30px); }
+}
+
+.animate-float-particle {
+  animation: float-particle var(--duration, 8s) ease-in infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.animate-sway {
+  animation: sway 4s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,215,0,0.3) 50%, transparent 100%);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Glass card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.glass-card-dark {
+  background: rgba(20, 12, 4, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(218, 165, 32, 0.2);
+}
+
+/* Book card hover */
+.book-card-hover {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.book-card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 30px rgba(218, 165, 32, 0.15);
+}
+
+/* Navbar blur */
+.navbar-blur {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Page transitions */
+.page-enter {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Wooden shelf */
+.shelf-plank {
+  background: linear-gradient(180deg,
+    #c4813a 0%,
+    #a0621e 30%,
+    #8a5419 60%,
+    #6d4015 100%
+  );
+  box-shadow: 0 6px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+
+/* Loading skeleton shimmer */
+@keyframes skeleton-shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.12) 37%, rgba(255,255,255,0.05) 63%);
+  background-size: 400px 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+}
+
+/* Vine decoration */
+.vine-border {
+  position: relative;
+}
+.vine-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #3d8c3d, #2d6e2d, #3d8c3d) 1;
+  pointer-events: none;
+}
+
+/* Input focus glow */
+.input-gold:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.5), 0 0 20px rgba(218, 165, 32, 0.2);
+  border-color: rgba(218, 165, 32, 0.7);
+}
+
+/* CTA button */
+.btn-enchanted {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #b8860b, #daa520, #ffd700, #daa520, #b8860b);
+  background-size: 200% auto;
+  transition: all 0.4s ease;
+}
+.btn-enchanted:hover {
+  background-position: right center;
+  box-shadow: 0 8px 30px rgba(218, 165, 32, 0.5), 0 0 60px rgba(255, 215, 0, 0.2);
+  transform: translateY(-2px);
+}
+.btn-enchanted::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.btn-enchanted:hover::after {
+  transform: translateX(100%);
+}
+
+/* Ornate divider */
+.ornate-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.ornate-divider::before,
+.ornate-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.5), transparent);
+}
+
+/* Star rating */
+.star-filled { color: #ffd700; filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.7)); }
+.star-empty { color: rgba(255, 215, 0, 0.2); }
+
+/* Background overlay */
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 8, 2, 0.35) 0%,
+    rgba(15, 8, 2, 0.5) 40%,
+    rgba(15, 8, 2, 0.75) 100%
+  );
+}
+
+/* Section heading */
+.section-heading {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .foliora-logo-text {
+    font-size: 2.5rem;
+  }
+}
+.feature-card {
+  background: rgba(20, 12, 4, 0.4);
+  border: 1px solid rgba(218, 165, 32, 0.15);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  background: rgba(218, 165, 32, 0.06);
+  border-color: rgba(218, 165, 32, 0.55);
+  box-shadow: 0 0 24px rgba(218, 165, 32, 0.12), inset 0 0 24px rgba(218, 165, 32, 0.04);
+}
