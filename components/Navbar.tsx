@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   BookOpen, Heart, List, Compass, Menu, X, Search, LogIn, User, LogOut,
@@ -27,6 +27,7 @@ const authLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -126,7 +127,7 @@ export default function Navbar() {
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-0.5 sm:gap-2">
             <Link href="/discover">
               <motion.button
                 className="p-2 rounded-lg text-cream-200 hover:text-gold-light hover:bg-white/5 transition-colors"
@@ -141,8 +142,9 @@ export default function Navbar() {
             {user ? (
               <>
                 {/* Notifications */}
-                <div className="relative">
+                <div className="sm:relative">
                   <motion.button
+                    aria-label="Notifications"
                     className="p-2 rounded-lg text-cream-200 hover:text-gold-light hover:bg-white/5 transition-colors relative"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
@@ -159,7 +161,7 @@ export default function Navbar() {
                   <AnimatePresence>
                     {notifOpen && (
                       <motion.div
-                        className="absolute right-0 top-full mt-2 w-80 max-h-[400px] overflow-y-auto rounded-2xl shadow-enchanted z-50"
+                        className="fixed left-3 right-3 top-[4.25rem] sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-80 max-h-[70vh] sm:max-h-[400px] overflow-y-auto rounded-2xl shadow-enchanted z-50"
                         style={{
                           background: 'rgba(20, 12, 4, 0.97)',
                           border: '1px solid rgba(218, 165, 32, 0.2)',
@@ -193,7 +195,14 @@ export default function Navbar() {
                                 !n.read ? 'bg-gold-dark/5' : ''
                               }`}
                               style={{ borderColor: 'rgba(255,255,255,0.04)' }}
-                              onClick={() => markAsRead(n.id)}
+                              onClick={() => {
+                                markAsRead(n.id);
+                                const gid = (n as any).data?.group_id;
+                                if (gid) {
+                                  setNotifOpen(false);
+                                  router.push(`/groups/${gid}`);
+                                }
+                              }}
                             >
                               <div className="text-cream-200 text-xs font-medium" style={{ fontFamily: 'Cinzel' }}>{n.title}</div>
                               <div className="text-cream-400/50 text-xs mt-0.5" style={{ fontFamily: 'EB Garamond' }}>{n.message}</div>
@@ -211,6 +220,7 @@ export default function Navbar() {
                 {/* Profile Menu */}
                 <div className="relative">
                   <motion.button
+                    aria-label="Profile menu"
                     className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-white/5 transition-colors"
                     onClick={() => setProfileOpen(!profileOpen)}
                   >

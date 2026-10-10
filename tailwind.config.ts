@@ -64,6 +64,7 @@ const config: Config = {
           light: '#ffd700',
           dark: '#b8860b',
         },
+        'gold-DEFAULT': '#daa520',
         forest: {
           50: '#f0f7f0',
           100: '#dceedc',

@@ -11,16 +11,15 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BookDetailSkeleton } from '@/components/LoadingSkeleton';
 import { StarRating } from '@/components/BookCard';
-import { fetchBookById, BookVolume, getBookCoverCandidates, getBookAuthors, getBookRating, getBookISBN } from '@/lib/books';
+import { fetchBookById, BookVolume, getBookCover, getBookAuthors, getBookRating, getBookISBN } from '@/lib/books';
 import { useBooks } from '@/context/BooksContext';
-import sanitizeHtml from 'sanitize-html';
 
 export default function BookDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const [book, setBook] = useState<BookVolume | null>(null);
   const [loading, setLoading] = useState(true);
-  const [coverIndex, setCoverIndex] = useState(0);
+  const [imgError, setImgError] = useState(false);
   const [addedToList, setAddedToList] = useState(false);
   const [bookOpen, setBookOpen] = useState(false);
 
@@ -43,7 +42,6 @@ export default function BookDetailPage() {
         const data = await fetchBookById(id);
         if (data) {
           setBook(data);
-          setCoverIndex(0);
           addRecentlyViewed(data);
         }
       } catch (e) {
@@ -67,15 +65,7 @@ export default function BookDetailPage() {
     }
   };
 
-  const coverCandidates = book ? getBookCoverCandidates(book) : [];
-  const cover = coverCandidates[coverIndex] || null;
-
-  const handleCoverError = () => {
-    setCoverIndex((current) => {
-      if (current < coverCandidates.length - 1) return current + 1;
-      return coverCandidates.length;
-    });
-  };
+  const cover = book && !imgError ? getBookCover(book) : null;
   const authors = book ? getBookAuthors(book) : [];
   const rating = book ? getBookRating(book) : 0;
   const isbn = book ? getBookISBN(book) : '';
@@ -168,7 +158,7 @@ export default function BookDetailPage() {
                     src={cover}
                     alt={volumeInfo.title}
                     className="w-full h-full object-cover"
-                    onError={handleCoverError}
+                    onError={() => setImgError(true)}
                   />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center" style={{ background: 'linear-gradient(135deg, #1e3a5f, #1a3a1a)' }}>
@@ -308,7 +298,7 @@ export default function BookDetailPage() {
                 <div
                   className="text-cream-300/70 text-sm leading-relaxed"
                   style={{ fontFamily: 'EB Garamond, serif' }}
-                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(volumeInfo.description) }}
+                  dangerouslySetInnerHTML={{ __html: volumeInfo.description }}
                 />
               </motion.div>
             )}
@@ -442,7 +432,7 @@ export default function BookDetailPage() {
               </button>
               <div className="rounded-2xl overflow-hidden shadow-enchanted" style={{ border: '1px solid rgba(218,165,32,0.2)' }}>
                 {cover ? (
-                  <img src={cover} alt={volumeInfo.title} className="w-full" onError={handleCoverError} />
+                  <img src={cover} alt={volumeInfo.title} className="w-full" />
                 ) : (
                   <div className="aspect-[2/3] flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #1e3a5f, #1a3a1a)' }}>
                     <BookOpen size={64} className="text-cream-200/30" />

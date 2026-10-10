@@ -176,13 +176,13 @@ if (orderBy === 'newest') {
           >
             <form onSubmit={handleSearch} className="relative overflow-visible">
               <div
-                className="flex items-center rounded-2xl overflow-visible shadow-gold"
+                className="flex items-center w-full max-w-full rounded-2xl overflow-visible shadow-gold"
                 style={{
                   background: 'rgba(35,20,8,0.9)',
                   border: '1px solid rgba(218,165,32,0.25)',
                 }}
               >
-                <Search size={18} className="ml-5 text-gold-DEFAULT flex-shrink-0" />
+                <Search size={18} className="ml-4 sm:ml-5 text-gold-DEFAULT flex-shrink-0" />
                 <input
                   ref={inputRef}
                   type="text"
@@ -191,8 +191,8 @@ if (orderBy === 'newest') {
                   onFocus={() => inputValue.length > 1 && setShowSuggestions(suggestions.length > 0)}
                   onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                   placeholder="Search by title, author, genre..."
-                  className="flex-1 bg-transparent px-4 py-4 text-cream-100 placeholder-cream-400/30 outline-none text-base"
-                  style={{ fontFamily: 'EB Garamond, Georgia, serif', fontSize: '1.1rem' }}
+                  className="flex-1 min-w-0 w-full bg-transparent px-3 sm:px-4 py-3.5 sm:py-4 text-cream-100 placeholder-cream-400/30 outline-none text-base"
+                  style={{ fontFamily: 'EB Garamond, Georgia, serif', fontSize: '1rem' }}
                 />
                 {inputValue && (
                   <button
@@ -205,7 +205,7 @@ if (orderBy === 'newest') {
                 )}
                 <button
                   type="submit"
-                  className="btn-enchanted m-1.5 px-6 py-2.5 rounded-xl text-wood-900 font-semibold text-sm flex-shrink-0"
+                  className="btn-enchanted m-1.5 px-4 sm:px-6 py-2.5 rounded-xl text-wood-900 font-semibold text-sm flex-shrink-0"
                   style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}
                 >
                   Search
@@ -277,7 +277,7 @@ if (orderBy === 'newest') {
 
       {/* Filters Bar */}
       <section className="px-4 pb-6" style={{ background: '#0a0602' }}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="text-cream-400/50 text-sm">
               {loading ? 'Searching...' : `${totalItems.toLocaleString()} books found`}

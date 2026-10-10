@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { Heart, Star, BookOpen, Eye } from 'lucide-react';
-import { BookVolume, getBookCoverCandidates, getBookAuthors, getBookRating } from '@/lib/books';
+import { BookVolume, getBookCover, getBookAuthors, getBookRating } from '@/lib/books';
 import { useBooks } from '@/context/BooksContext';
 
 interface Props {
@@ -16,24 +16,10 @@ interface Props {
 export default function BookCard({ book, index = 0, variant = 'default' }: Props) {
   const router = useRouter();
   const { isFavorite, toggleFavorite, isInReadingList, addToReadingList } = useBooks();
-  const [coverIndex, setCoverIndex] = useState(0);
+  const [imgError, setImgError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const coverCandidates = getBookCoverCandidates(book);
-  const cover = coverCandidates[coverIndex] || '';
-
-  useEffect(() => {
-    setCoverIndex(0);
-  }, [book.id]);
-
-  const handleCoverError = () => {
-    setCoverIndex((current) => {
-      if (current < coverCandidates.length - 1) return current + 1;
-      return coverCandidates.length;
-    });
-  };
-
-  const hasCover = Boolean(cover) && coverIndex < coverCandidates.length;
+  const cover = getBookCover(book);
   const authors = getBookAuthors(book);
   const rating = getBookRating(book);
   const title = book.volumeInfo.title;
@@ -68,8 +54,8 @@ export default function BookCard({ book, index = 0, variant = 'default' }: Props
         transition={{ delay: index * 0.05 }}
       >
         <div className="flex-shrink-0 w-12 h-16 rounded-md overflow-hidden shadow-book">
-          {hasCover ? (
-            <img src={cover} alt={title} className="w-full h-full object-cover" onError={handleCoverError} />
+          {!imgError && cover ? (
+            <img src={cover} alt={title} className="w-full h-full object-cover" onError={() => setImgError(true)} />
           ) : (
             <PlaceholderCover title={title} />
           )}
@@ -99,12 +85,12 @@ export default function BookCard({ book, index = 0, variant = 'default' }: Props
     >
       {/* Cover */}
       <div className="relative overflow-hidden aspect-[2/3]">
-        {hasCover ? (
+        {!imgError && cover ? (
           <img
             src={cover}
             alt={title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            onError={handleCoverError}
+            onError={() => setImgError(true)}
           />
         ) : (
           <PlaceholderCover title={title} />
