@@ -149,20 +149,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [ensureProfile]);
 
   const signUp = useCallback(async (email: string, password: string, username: string) => {
-    // Step 1: Sign up with Supabase Auth
+    const cleanUsername = username.trim().toLowerCase();
+    if (!/^[a-z0-9_]{3,30}$/.test(cleanUsername)) {
+      return { error: new Error('Username must be 3–30 characters and contain only letters, numbers, or underscores.') };
+    }
+
+    // Friendly availability check. The database constraint is the final authority.
+    const { data: existingUsername, error: usernameCheckError } = await supabase
+      .from('profiles')
+      .select('id')
+      .ilike('username', cleanUsername)
+      .limit(1);
+
+    if (usernameCheckError) {
+      return { error: new Error('Could not verify username availability. Please try again.') };
+    }
+    if (existingUsername && existingUsername.length > 0) {
+      return { error: new Error('This username is already taken. Please choose another one.') };
+    }
+
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { username },
+        data: { username: cleanUsername },
       },
     });
 
     if (authError || !authData.user) {
-      return { error: authError };
+      return { error: authError ?? new Error('Account creation failed.') };
     }
 
-    await ensureProfile(authData.user);
+    if (authData.session) {
+      await ensureProfile(authData.user);
+    }
 
     return { error: null };
   }, [ensureProfile]);

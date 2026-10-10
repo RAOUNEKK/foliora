@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, BookOpen, Mail, Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { Sparkles, BookOpen, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function AuthPage() {
-  const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login');
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -16,7 +16,7 @@ export default function AuthPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
-  const { signUp, signIn, resetPassword } = useAuth();
+  const { signUp, signIn } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,19 +31,16 @@ export default function AuthPage() {
         if (error) throw error;
         router.push('/');
       } else if (mode === 'signup') {
-        if (!username.trim()) {
-          setError('Username is required');
+        const cleanUsername = username.trim().toLowerCase();
+        if (!/^[a-z0-9_]{3,30}$/.test(cleanUsername)) {
+          setError('Username must be 3–30 characters and contain only letters, numbers, or underscores.');
           setLoading(false);
           return;
         }
-        const { error } = await signUp(email, password, username);
+        const { error } = await signUp(email, password, cleanUsername);
         if (error) throw error;
         setSuccess('Account created! You can now sign in.');
         setMode('login');
-      } else if (mode === 'forgot') {
-        const { error } = await resetPassword(email);
-        if (error) throw error;
-        setSuccess('Password reset link sent to your email.');
       }
     } catch (err: any) {
       const message = err.message || 'An error occurred';
@@ -122,16 +119,6 @@ export default function AuthPage() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.2 }}
             >
-              {mode === 'forgot' && (
-                <button
-                  type="button"
-                  className="flex items-center gap-2 text-cream-400/60 text-sm mb-4 hover:text-gold-light transition-colors"
-                  onClick={() => setMode('login')}
-                >
-                  <ArrowLeft size={14} />
-                  Back to sign in
-                </button>
-              )}
 
               {/* Username field (signup only) */}
               {mode === 'signup' && (
@@ -170,7 +157,7 @@ export default function AuthPage() {
               </div>
 
               {/* Password field */}
-              {mode !== 'forgot' && (
+              {(
                 <div className="mb-6">
                   <label className="block text-cream-400/60 text-xs mb-1.5" style={{ fontFamily: 'Cinzel, serif' }}>Password</label>
                   <div className="relative">
@@ -230,26 +217,12 @@ export default function AuthPage() {
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
                     <Sparkles size={16} className="animate-spin" />
-                    {mode === 'forgot' ? 'Sending...' : 'Please wait...'}
+                    Please wait...
                   </span>
                 ) : (
-                  mode === 'login' ? 'SIGN IN' : mode === 'signup' ? 'CREATE ACCOUNT' : 'SEND RESET LINK'
+                  mode === 'login' ? 'SIGN IN' : 'CREATE ACCOUNT'
                 )}
               </motion.button>
-
-              {/* Forgot password link */}
-              {mode === 'login' && (
-                <div className="text-center mt-4">
-                  <button
-                    type="button"
-                    className="text-gold-DEFAULT text-xs hover:text-gold-light transition-colors"
-                    style={{ fontFamily: 'Cinzel, serif' }}
-                    onClick={() => { setMode('forgot'); setError(''); setSuccess(''); }}
-                  >
-                    Forgot your password?
-                  </button>
-                </div>
-              )}
             </motion.form>
           </AnimatePresence>
         </motion.div>
